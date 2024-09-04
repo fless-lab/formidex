@@ -1,1 +1,1 @@
-export { default as AppRoutes } from './app.routes';
+export { default as PublicAccessRoutes } from './public-access.routes';

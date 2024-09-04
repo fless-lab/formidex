@@ -1,1 +1,1 @@
-export { default as AppController } from './public-access.controller';
+export { default as PublicAccessController } from './public-access.controller';

@@ -1,2 +1,2 @@
-export * from '../starter/controllers';
-export * from '../starter/routes';
+export * from './controllers';
+export * from './routes';

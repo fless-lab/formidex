@@ -2,8 +2,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ViewService } from '../../../common/shared';
 
-const path_pre = 'public/';
-
 class PublicAccessController {
   static async showHomePage(
     req: Request,
@@ -12,10 +10,17 @@ class PublicAccessController {
   ): Promise<void> {
     try {
       const viewService = new ViewService();
-      viewService.renderPage(req, res, 'public/pages/home');
+      viewService.renderPage(req, res, 'public/pages/home', {
+        title: 'Welcome To Formidex',
+      });
     } catch (error) {
       const viewService = new ViewService();
-      viewService.renderErrorPage(req, res, 500, 'Internal Server Error');
+      viewService.renderErrorPage(
+        req,
+        res,
+        500,
+        (error as any).message || 'Internal Server Error',
+      );
     }
   }
 }
