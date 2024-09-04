@@ -19,6 +19,6 @@
     --input: hsl(var(--rtwc-input));
     --ring: hsl(var(--rtwc-ring));
     --radius: hsl(var(--rtwc-radius));
-    --font-heading: "Nerko One", cursive;
-    --font-body: "Caveat", cursive;
+    --font-heading: "Kanit", sans-serif;
+    --font-body: "Cabin", sans-serif;
   }
