@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="ocean">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/assets/styles/tailwind.out.css">
+    <link rel="stylesheet" href="/assets/styles/main.css">
+</head>
+<body>
+  <div class="container mx-auto">
+    <%- include('partials/header') %>
+    <main class="flex-1">
+      <%- body %>
+    </main>
+    <%- include('partials/footer') %>
+  </div>
+</body>
+</html>

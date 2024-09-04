@@ -1,0 +1,25 @@
+export const oceanTheme = {
+    label:"Ocean",
+    value:"ocean",
+    properties:{
+      background: 'hsl(210, 100%, 6%)',
+      foreground: 'hsl(180, 100%, 90%)',
+      primary: 'hsl(200, 100%, 28%)',
+      'primary-foreground': 'hsl(180, 100%, 90%)',
+      secondary: 'hsl(203, 23%, 30%)',
+      'secondary-foreground': 'hsl(180, 100%, 90%)',
+      accent: 'hsl(198, 70%, 50%)',
+      'accent-foreground': 'hsl(185, 10%, 13%)',
+      destructive: 'hsl(0, 98%, 44%)',
+      'destructive-foreground': 'hsl(0, 0%, 100%)',
+      muted: 'hsl(200, 50%, 30%)',
+      'muted-foreground': 'hsl(180, 100%, 90%)',
+      card: 'hsl(210, 100%, 12%)',
+      'card-foreground': 'hsl(180, 100%, 90%)',
+      popover: 'hsl(210, 100%, 15%)',
+      'popover-foreground': 'hsl(180, 100%, 90%)',
+      border: 'hsl(210, 50%, 40%)',
+      input: 'hsl(210, 50%, 40%)',
+      ring: 'hsl(180, 100%, 90%)',
+    }
+  };

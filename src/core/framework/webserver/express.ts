@@ -14,6 +14,7 @@ import {
 import { default as AllRoutes } from '../../../common/global-router';
 import { config } from '../../config';
 import { helmetCSPConfig } from '../../constants';
+import path from 'path';
 
 const app = express();
 const morganEnv = config.runningProd ? 'combined' : 'dev';
@@ -30,6 +31,8 @@ app.use(morgan(morganEnv));
 app.use(express.json());
 app.disable('x-powered-by'); // Disable X-Powered-By header
 
+app.use(express.static(path.join(__dirname, config.publicPathFromExpress)));
+
 // Initialize Session and Flash
 initializeSessionAndFlash(app);
 
@@ -37,13 +40,13 @@ initializeSessionAndFlash(app);
 initializeViewEngine(app);
 
 // Client authentication middleware
-app.use(clientAuthentication);
+// app.use(clientAuthentication);
 
 // Client authentication middleware
 app.use(apiRateLimiter);
 
 // API Routes
-app.use('/api/v1', AllRoutes);
+app.use('/', AllRoutes);
 
 // Error handlers
 app.use(NotFoundHandler);

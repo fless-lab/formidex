@@ -1,0 +1,27 @@
+<% layout('layouts/main', { title: 'Welcome To Formidex' }) %>
+<section class="w-full py-6">
+  <div class="container px-4 md:px-6">
+    <div class="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
+      <div class="flex flex-col justify-center space-y-4">
+        <div class="space-y-2">
+          <h1 class="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
+            Formidex - The Open-Source Form Manager
+          </h1>
+          <p class="max-w-[600px] text-muted-foreground md:text-xl">
+            Formidex is an open-source and self-hostable form manager that allows you to create and manage forms
+            without the hassle of setting up a backend.
+          </p>
+        </div>
+        <div class="flex flex-col gap-2 min-[400px]:flex-row">
+          <a href="#" class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90">
+            Try the Micro-SaaS
+          </a>
+          <a href="#" class="inline-flex h-10 items-center justify-center rounded-md border border-input bg-background px-8 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground">
+            Self-host Formidex
+          </a>
+        </div>
+      </div>
+      <img src="/assets/images/hero-image.jpg" alt="Formidex" width="550" height="310" class="mx-auto aspect-square overflow-hidden rounded-xl object-cover sm:w-full lg:order-last border">
+    </div>
+  </div>
+</section>

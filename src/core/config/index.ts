@@ -69,6 +69,7 @@ interface Config {
       { code: string; title: string; description: string; message: string }
     >;
   };
+  publicPathFromExpress: string;
 }
 
 export const config: Config = {
@@ -206,4 +207,5 @@ export const config: Config = {
       },
     },
   },
+  publicPathFromExpress: '../../../../public',
 };

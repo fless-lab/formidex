@@ -16,6 +16,11 @@ export const helmetCSPConfig = helmet.contentSecurityPolicy({
       'https://images.unsplash.com',
     ],
     styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
-    fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    fontSrc: [
+      "'self'",
+      'https://fonts.gstatic.com',
+      'data:',
+      'chrome-extension:',
+    ],
   },
 });

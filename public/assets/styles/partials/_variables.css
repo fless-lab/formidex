@@ -1,0 +1,24 @@
+:root {
+    --background: hsl(var(--rtwc-background));
+    --foreground: hsl(var(--rtwc-foreground));
+    --primary: hsl(var(--rtwc-primary));
+    --primary-foreground: hsl(var(--rtwc-primary-foreground));
+    --secondary: hsl(var(--rtwc-secondary));
+    --secondary-foreground: hsl(var(--rtwc-secondary-foreground));
+    --accent: hsl(var(--rtwc-accent));
+    --accent-foreground: hsl(var(--rtwc-accent-foreground));
+    --destructive: hsl(var(--rtwc-destructive));
+    --destructive-foreground: hsl(var(--rtwc-destructive-foreground));
+    --muted: hsl(var(--rtwc-muted));
+    --muted-foreground: hsl(var(--rtwc-muted-foreground));
+    --card: hsl(var(--rtwc-card));
+    --card-foreground: hsl(var(--rtwc-card-foreground));
+    --popover: hsl(var(--rtwc-popover));
+    --popover-foreground: hsl(var(--rtwc-popover-foreground));
+    --border: hsl(var(--rtwc-border));
+    --input: hsl(var(--rtwc-input));
+    --ring: hsl(var(--rtwc-ring));
+    --radius: hsl(var(--rtwc-radius));
+    --font-heading: "Nerko One", cursive;
+    --font-body: "Caveat", cursive;
+  }

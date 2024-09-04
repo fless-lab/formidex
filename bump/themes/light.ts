@@ -1,0 +1,25 @@
+export const lightTheme = {
+    label:"Light",
+    value:"light",
+    properties:{
+      background: 'hsl(36, 39%, 88%)',
+      foreground: 'hsl(36, 45%, 15%)',
+      primary: 'hsl(36, 45%, 70%)',
+      'primary-foreground': 'hsl(36, 45%, 11%)',
+      secondary: 'hsl(40, 35%, 77%)',
+      'secondary-foreground': 'hsl(36, 45%, 25%)',
+      accent: 'hsl(36, 64%, 57%)',
+      'accent-foreground': 'hsl(36, 72%, 17%)',
+      destructive: 'hsl(0, 84%, 37%)',
+      'destructive-foreground': 'hsl(0, 0%, 98%)',
+      muted: 'hsl(36, 33%, 75%)',
+      'muted-foreground': 'hsl(36, 45%, 25%)',
+      card: 'hsl(36, 46%, 82%)',
+      'card-foreground': 'hsl(36, 45%, 20%)',
+      popover: 'hsl(0, 0%, 100%)',
+      'popover-foreground': 'hsl(240, 10%, 3.9%)',
+      border: 'hsl(36, 45%, 60%)',
+      input: 'hsl(36, 45%, 60%)',
+      ring: 'hsl(36, 45%, 30%)',
+    }
+  };
