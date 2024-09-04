@@ -13,6 +13,7 @@ class ViewService {
   renderPage(req: Request, res: Response, view: string, options: any = {}) {
     res.render(view, {
       ...options,
+      title: options.title || 'Formidex',
       successMessages: req.flash('success'),
       errorMessages: req.flash('error'),
     });
@@ -23,10 +24,14 @@ class ViewService {
     res: Response,
     statusCode: number,
     message: string,
+    title = 'Error',
+    additionalMessage = '',
   ) {
     const view = `errors/${statusCode}`;
     res.status(statusCode).render(view, {
+      title,
       message,
+      additionalMessage,
       successMessages: req.flash('success'),
       errorMessages: req.flash('error'),
     });
