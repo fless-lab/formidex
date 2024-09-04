@@ -15,6 +15,7 @@ import { default as AllRoutes } from '../../../common/global-router';
 import { config } from '../../config';
 import { helmetCSPConfig } from '../../constants';
 import path from 'path';
+import expressLayouts from 'express-ejs-layouts';
 
 const app = express();
 const morganEnv = config.runningProd ? 'combined' : 'dev';
@@ -32,6 +33,9 @@ app.use(express.json());
 app.disable('x-powered-by'); // Disable X-Powered-By header
 
 app.use(express.static(path.join(__dirname, config.publicPathFromExpress)));
+
+// Use express-ejs-layouts
+app.use(expressLayouts);
 
 // Initialize Session and Flash
 initializeSessionAndFlash(app);
