@@ -1,9 +1,14 @@
 import { Router } from 'express';
-import { AppRoutes, AuthRoutes, OTPRoutes, UserRoutes } from '../../apps';
+import {
+  AuthRoutes,
+  OTPRoutes,
+  PublicAccessRoutes,
+  UserRoutes,
+} from '../../apps';
 
 const router = Router();
 
-router.use('/', AppRoutes);
+router.use('/', PublicAccessRoutes);
 router.use('/users', UserRoutes);
 router.use('/otp', OTPRoutes);
 router.use('/auth', AuthRoutes);
