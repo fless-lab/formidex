@@ -9,8 +9,7 @@ export class WebAppResponse {
     res: Response,
     error: ErrorResponseType,
   ): void {
-    const isHtml = req.accepts('html');
-
+    const isHtml = req.accepts('html') === 'html';
     if (isHtml) {
       WebResponse.error(
         req,
