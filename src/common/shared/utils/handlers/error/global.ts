@@ -2,44 +2,39 @@
 
 import { Request, Response, NextFunction } from 'express';
 import ErrorResponse from './response';
-import ApiResponse from '../api-reponse';
-import { ViewService } from '../../../services';
+import { WebAppResponse } from '../wepapp-response';
+import { config } from '../../../../../core/config';
 
 const errorHandler = (
   err: any,
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
-  const viewService = new ViewService();
+): void => {
+  let errorResponse: ErrorResponse;
 
-  if (req.accepts('html')) {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || 'An unexpected error occurred';
-    return viewService.renderErrorPage(
-      req,
-      res,
-      statusCode,
-      message,
-      'Error Occurred',
+  if (err instanceof ErrorResponse) {
+    errorResponse = err;
+  } else {
+    errorResponse = new ErrorResponse(
+      'GENERAL_ERROR',
+      err.message || 'An unexpected error occurred',
+      [],
     );
   }
 
-  if (err instanceof ErrorResponse) {
-    return ApiResponse.error(res, { success: false, error: err });
-  }
-
-  const genericError = new ErrorResponse(
-    'GENERAL_ERROR',
-    err.message || 'An unexpected error occurred',
-    [],
-  );
-
-  return ApiResponse.error(res, {
+  const errorPayload = {
     success: false,
-    error: genericError,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-  } as any);
+    error: {
+      statusCode: errorResponse.statusCode,
+      message: errorResponse.message,
+      code: errorResponse.code,
+      suggestions: errorResponse.suggestions,
+    },
+    stack: !config.runningProd ? err.stack : undefined,
+  };
+
+  WebAppResponse.handleError(req, res, errorPayload as any);
 };
 
 export default errorHandler;
