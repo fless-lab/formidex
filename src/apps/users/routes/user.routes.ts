@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import { authenticateRequest, validate } from '../../../common/shared';
 import { createUserSchema } from '../validators';
 import { UserController } from '../controllers';
+import { authenticateRequest, validate } from '../../../common/shared';
 const router = Router();
 
 router.post(

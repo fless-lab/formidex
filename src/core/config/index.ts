@@ -73,6 +73,12 @@ interface Config {
     >;
   };
   publicPathFromExpress: string;
+  webAuth: {
+    prefix: string;
+    loginEndpoint: string;
+    logoutEndpoint: string;
+    callbackEndpoint: string;
+  };
 }
 
 export const config: Config = {
@@ -215,4 +221,10 @@ export const config: Config = {
     },
   },
   publicPathFromExpress: '../../../../public',
+  webAuth: {
+    prefix: process.env.WEBAUTH_PREFIX || '/auth',
+    loginEndpoint: process.env.WEBAUTH_LOGIN_ENDPOINT || '/auth/login',
+    logoutEndpoint: process.env.WEBAUTH_LOGOUT_ENDPOINT || '/auth/logout',
+    callbackEndpoint: process.env.WEBAUTH_CALLBACK_ENDPOINT || '/auth/callback',
+  },
 };

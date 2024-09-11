@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { Request } from 'express';
 import { IUser } from '../../../apps';
 import { logger } from './logger.service';

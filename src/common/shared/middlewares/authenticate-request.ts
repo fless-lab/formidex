@@ -5,9 +5,9 @@ import {
   logger,
   SessionService,
 } from '../services';
-import { authRedirect } from './auth-redirect';
+import { config } from '../../../core/config';
 
-export const authenticatedRequest = (
+export const authenticateRequest = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -24,13 +24,16 @@ export const authenticatedRequest = (
         next();
       });
     } else {
-      return authRedirect(req, res, next);
+      // @ts-ignore
+      req.session.returnTo = req.originalUrl;
+      return res.redirect(config.webAuth.loginEndpoint);
     }
   } else {
     JwtService.verifyAccessToken(req, res, (authErr: any) => {
       if (authErr) {
         return next(authErr);
       }
+      // @ts-ignore
       const payload = req.payload;
       if (payload && typeof payload.aud === 'string') {
         const userId = payload.aud;
