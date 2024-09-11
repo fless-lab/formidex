@@ -58,6 +58,9 @@ interface Config {
   };
   session: {
     secret: string;
+    maxAge: number;
+    sameSite: 'lax' | 'strict' | 'none';
+    httpOnly: boolean;
   };
   viewEngines: string[];
   defaultViewEngine: string;
@@ -144,6 +147,10 @@ export const config: Config = {
   },
   session: {
     secret: process.env.SESSION_SECRET || 'your-session-secret',
+    maxAge: parseInt(process.env.SESSION_MAX_AGE || '28800000', 10),
+    sameSite:
+      (process.env.SESSION_SAME_SITE as 'lax' | 'strict' | 'none') || 'strict',
+    httpOnly: process.env.SESSION_HTTP_ONLY === 'true',
   },
   viewEngines: ['ejs', 'pug', 'handlebars', 'nunjucks'], // Supported view engines
   defaultViewEngine: process.env.VIEW_ENGINE || 'ejs',
