@@ -1,19 +1,36 @@
 import { Request, Response, NextFunction } from 'express';
 import { logger } from '../services';
 import { config } from '../../../core/config';
+import { ErrorResponse, WebAppResponse } from '../utils';
 
 export const clientAuthentication = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => {
-  const clientToken = req.headers['x-client-token'] as string;
+): void => {
+  let clientToken: string | undefined;
+
+  if (req.cookies && req.cookies['client_token']) {
+    clientToken = req.cookies['client_token'];
+  }
+
+  if (!clientToken && req.headers['x-client-token']) {
+    clientToken = req.headers['x-client-token'] as string;
+  }
 
   if (!clientToken) {
     logger.warn(
       `Unauthorized access attempt from IP: ${req.ip} - No client token provided`,
     );
-    return res.status(401).send('Unauthorized');
+    const errorResponse = new ErrorResponse(
+      'UNAUTHORIZED',
+      'Client token is required for authentication',
+    );
+
+    return WebAppResponse.handleError(req, res, {
+      success: false,
+      error: errorResponse,
+    });
   }
 
   const [username, password] = Buffer.from(clientToken, 'base64')
@@ -30,6 +47,14 @@ export const clientAuthentication = (
     logger.warn(
       `Forbidden access attempt from IP: ${req.ip} - Invalid credentials`,
     );
-    return res.status(403).send('Forbidden');
+    const errorResponse = new ErrorResponse(
+      'FORBIDDEN',
+      'Invalid credentials provided for client authentication',
+    );
+
+    return WebAppResponse.handleError(req, res, {
+      success: false,
+      error: errorResponse,
+    });
   }
 };
