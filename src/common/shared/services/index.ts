@@ -3,3 +3,4 @@ export { default as ViewService } from './view.service';
 export * from './mail';
 export * from './logger.service';
 export * from './async-localstorage.service';
+export * from './session.service';
