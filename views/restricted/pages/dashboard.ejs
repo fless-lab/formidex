@@ -1,0 +1,122 @@
+
+<div class="flex min-h-screen w-full">
+  <aside class="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+    <nav class="flex flex-col items-center gap-4 px-2 sm:py-5">
+      <a
+        href="#"
+        class="group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-4 w-4 transition-all group-hover:scale-110"
+        >
+          <path d="M18 6 6 18"></path>
+          <path d="m6 6 12 12"></path>
+        </svg>
+        <span class="sr-only">Formidex</span>
+      </a>
+    </nav>
+    <nav class="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5"></nav>
+  </aside>
+  <div class="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 w-full">
+    <header class="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+      <nav aria-label="breadcrumb" class="hidden md:flex">
+        <ol class="flex flex-wrap items-center gap-1.5 break-words text-sm text-muted-foreground sm:gap-2.5">
+          <li class="inline-flex items-center gap-1.5"></li>
+        </ol>
+      </nav>
+      <div class="ml-auto flex items-center gap-2"></div>
+    </header>
+    <main class="flex-1 p-4 sm:px-6 sm:py-0 md:gap-8">
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Forms</h3>
+            <p class="text-sm text-muted-foreground">Manage your forms and submission</p>
+          </div>
+          <div class="flex items-center p-6">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+            >
+              View Forms
+            </a>
+          </div>
+        </div>
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Users</h3>
+            <p class="text-sm text-muted-foreground">Manage your users and their permissions.</p>
+          </div>
+          <div class="flex items-center p-6">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+            >
+              View Users
+            </a>
+          </div>
+        </div>
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Organizations</h3>
+            <p class="text-sm text-muted-foreground">Manage your organizations</p>
+          </div>
+          <div class="flex items-center p-6">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+            >
+              View Organizations
+            </a>
+          </div>
+        </div>
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Profile</h3>
+            <p class="text-sm text-muted-foreground">Manage your personal profile and settings.</p>
+          </div>
+          <div class="flex items-center p-6">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+            >
+              View Profile
+            </a>
+          </div>
+        </div>
+        <div class="rounded-lg border bg-card text-card-foreground shadow-sm" data-v0-t="card">
+          <div class="flex flex-col space-y-1.5 p-6">
+            <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Settings</h3>
+            <p class="text-sm text-muted-foreground">Manage your account and application settings.</p>
+          </div>
+          <div class="flex items-center p-6">
+            <a
+              class="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+              href="#"
+            >
+              View Settings
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+      <p class="text-xs text-muted-foreground">© 2024 Formidex. All rights reserved.</p>
+      <nav class="sm:ml-auto flex gap-4 sm:gap-6">
+        <a href="#" class="text-xs hover:underline underline-offset-4" target="_blank">
+          GitHub
+        </a>
+        <a class="text-xs hover:underline underline-offset-4" target="_blank" href="#"></a>
+      </nav>
+    </footer>
+  </div>
+</div>
