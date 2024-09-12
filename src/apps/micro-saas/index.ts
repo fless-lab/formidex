@@ -1,2 +1,2 @@
-// Include the routes of subapps
-// Include the auth middleware
+export * from './controllers';
+export * from './routes';
