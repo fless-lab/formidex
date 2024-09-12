@@ -1,19 +1,17 @@
-import { Application, Request, Response } from 'express';
+import { Request, Response } from 'express';
 
 class ViewService {
-  // constructor(app: Application) {
-  //   this.setup(app);
+  // private setup(app: Application) {
+  // Setup logic if necessary
   // }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  private setup(app: Application) {
-    //
-  }
-
   renderPage(req: Request, res: Response, view: string, options: any = {}) {
+    const user = req.session.user || null;
+
     res.render(view, {
       ...options,
       title: options.title || 'Formidex',
+      user,
       successMessages: req.flash('success'),
       errorMessages: req.flash('error'),
     });
@@ -27,11 +25,14 @@ class ViewService {
     title = 'Error',
     additionalMessage = '',
   ) {
+    const user = req.session.user || null;
+
     const view = `errors/${statusCode}`;
     res.status(statusCode).render(view, {
       title,
       message,
       additionalMessage,
+      user,
       successMessages: req.flash('success'),
       errorMessages: req.flash('error'),
     });
