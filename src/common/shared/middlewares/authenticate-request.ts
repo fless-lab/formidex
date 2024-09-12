@@ -4,6 +4,7 @@ import {
   AsyncStorageService,
   logger,
   SessionService,
+  ViewService,
 } from '../services';
 import { config } from '../../../core/config';
 
@@ -24,9 +25,16 @@ export const authenticateRequest = (
         next();
       });
     } else {
+      const viewService = new ViewService();
       // @ts-ignore
       req.session.returnTo = req.originalUrl;
-      return res.redirect(config.webAuth.loginEndpoint);
+      return viewService.redirectWithFlash(
+        req,
+        res,
+        config.webAuth.loginEndpoint,
+        'Vous devez être connecté pour accéder à cette page.',
+        'error',
+      );
     }
   } else {
     JwtService.verifyAccessToken(req, res, (authErr: any) => {
