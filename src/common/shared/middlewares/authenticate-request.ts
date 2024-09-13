@@ -32,7 +32,7 @@ export const authenticateRequest = (
         req,
         res,
         config.webAuth.loginEndpoint,
-        'Vous devez être connecté pour accéder à cette page.',
+        'You must be logged in to access this page.',
         'error',
       );
     }
