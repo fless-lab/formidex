@@ -1,0 +1,42 @@
+  <div class="w-full max-w-md space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">Login (via OTP) to Formidex</h2>
+      <p class="mt-2 text-center text-sm text-muted-foreground">Enter your mail in order to get your One Time Password</p>
+    </div>
+    <form class="space-y-6">
+      <div>
+        <label
+          class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
+          for="email"
+        >
+          Email address
+        </label>
+        <input
+          class="h-10 bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 relative block w-full appearance-none rounded-md border border-muted px-3 py-2 text-foreground placeholder-muted-foreground focus:z-10 focus:border-primary focus:outline-none focus:ring-primary sm:text-sm"
+          id="email"
+          autocomplete="email"
+          required=""
+          placeholder="Email address"
+          name="email"
+          type="email"
+        />
+      </div>
+      <div>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full"
+          type="submit"
+        >
+          Send OTP
+        </button>
+      </div>
+      <div class="text-center text-sm text-muted-foreground flex items-center justify-center">
+        Or&nbsp;
+        <a class="font-medium text-primary hover:text-primary-foreground" href="/auth/login">
+          continue with password
+        </a>
+      </div>
+    </form>
+    <div class="text-center text-sm text-muted-foreground">Don't have an account? <a class="font-medium text-primary hover:text-primary-foreground" href="/auth/register">
+        Register Now
+      </a></div>
+  </div>
