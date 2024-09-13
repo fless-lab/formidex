@@ -1,99 +1,27 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="ocean">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil</title>
-  <style>
-    body {
-      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 20px;
-      background-color: #f0f0f0;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      color: #333;
-      text-align: center;
-    }
-    p {
-      color: #666;
-    }
-    .message {
-      margin-top: 20px;
-      padding: 10px;
-      border-radius: 4px;
-    }
-    .success {
-      background-color: #d4edda;
-      border-color: #c3e6cb;
-      color: #155724;
-    }
-    .error {
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-      color: #721c24;
-    }
-    .routes {
-      margin-top: 20px;
-    }
-    .route {
-      margin: 10px 0;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .method {
-      font-weight: bold;
-    }
-    .path {
-      margin-left: 10px;
-    }
-    .middlewares {
-      margin-left: 10px;
-      color: #888;
-    }
-  </style>
+  <title><% title %></title>
+  <link rel="stylesheet" href="/assets/styles/tailwind.out.css">
+  <link rel="stylesheet" href="/assets/styles/main.css">
 </head>
-<body>
-  <div class="container">
-    <h1>Bienvenue sur notre plateforme</h1>
-    
-    <% if (successMessages && successMessages.length > 0) { %>
-      <div class="message success">
-        <% successMessages.forEach(function(message) { %>
-          <p><%= message %></p>
+<body class="bg-muted-foreground">
+  <div class="container mx-auto p-6">
+    <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+      <h1 class="text-center text-3xl font-bold text-muted-foreground mb-6">Welcome to dev portal</h1>
+
+      <div class="routes mt-6">
+        <h2 class="text-2xl font-bold text-muted-foreground mb-4">Available Routes :</h2>
+        <% routes.forEach(function(route) { %>
+          <div class="route border border-muted p-4 rounded-md mb-2">
+            <span class="method font-bold text-primary"><%= route.methods.join(', ') %></span>
+            <span class="path text-muted ml-2"><%= route.path %></span>
+            <span class="middlewares text-muted-foreground ml-4">[<%= route.middlewares.join(', ') %>]</span>
+          </div>
         <% }); %>
       </div>
-    <% } %>
-    
-    <% if (errorMessages && errorMessages.length > 0) { %>
-      <div class="message error">
-        <% errorMessages.forEach(function(message) { %>
-          <p><%= message %></p>
-        <% }); %>
-      </div>
-    <% } %>
-
-    <p>Ceci est la page d'accueil de notre plateforme.</p>
-
-    <div class="routes">
-      <h2>Routes disponibles :</h2>
-      <% routes.forEach(function(route) { %>
-        <div class="route">
-          <span class="method"><%= route.methods.join(', ') %></span>
-          <span class="path"><%= route.path %></span>
-          <span class="middlewares">[<%= route.middlewares.join(', ') %>]</span>
-        </div>
-      <% }); %>
     </div>
   </div>
 </body>

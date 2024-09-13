@@ -9,5 +9,6 @@ router.use((req, res, next) => {
 });
 
 router.get('/', PublicAccessController.showHomePage);
+router.get('/dev/routes/list', PublicAccessController.showRouteListPage);
 
 export default router;
