@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import authViewsRoutes from './auth.views.routes';
+import AuthLogicRoutes from './auth.logic.routes';
+import AuthViewsRoutes from './auth.views.routes';
 
 const router = Router();
 
@@ -8,6 +9,7 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use('/', authViewsRoutes);
+router.use('/', AuthViewsRoutes);
+router.use('/e', AuthLogicRoutes); // e for execute (This is for executing the logic of the route)
 
 export default router;
