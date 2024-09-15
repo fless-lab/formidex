@@ -1,7 +1,4 @@
 import { Router } from 'express';
-
-import { bruteForceMiddleware, validate } from '../../../common/shared';
-import { AuthController } from '../controllers';
 import {
   forgotPasswordSchema,
   generateLoginOtpSchema,
@@ -13,43 +10,58 @@ import {
   resetPasswordSchema,
   verifyAccountSchema,
 } from '../validators';
+import { validate, bruteForceMiddleware } from '../../../common/shared';
+import { AuthLogicController } from '../controllers';
 
 const router = Router();
+const authLogicController = new AuthLogicController();
 
-router.post('/register', validate(registerSchema), AuthController.register);
 router.post(
-  '/verify-account',
-  validate(verifyAccountSchema),
-  AuthController.verifyAccount,
-);
-router.post(
-  '/generate-login-otp',
-  validate(generateLoginOtpSchema),
-  AuthController.generateLoginOtp,
-);
-router.post(
-  '/login-with-password',
+  '/login',
   validate(loginWithPasswordSchema),
   bruteForceMiddleware,
-  AuthController.loginWithPassword,
+  authLogicController.loginWithPassword.bind(authLogicController),
 );
 router.post(
-  '/login-with-otp',
+  '/register',
+  validate(registerSchema),
+  authLogicController.register.bind(authLogicController),
+);
+router.post(
+  '/verify',
+  validate(verifyAccountSchema),
+  authLogicController.verifyAccount.bind(authLogicController),
+);
+router.post(
+  '/login/otp',
+  validate(generateLoginOtpSchema),
+  authLogicController.generateLoginOtp.bind(authLogicController),
+);
+router.post(
+  '/login/otp/confirm',
   validate(loginWithOtpSchema),
   bruteForceMiddleware,
-  AuthController.loginWithOtp,
+  authLogicController.loginWithOtp.bind(authLogicController),
+);
+router.post(
+  '/refresh',
+  validate(refreshSchema),
+  authLogicController.refreshToken.bind(authLogicController),
+);
+router.post(
+  '/logout',
+  validate(logoutSchema),
+  authLogicController.logout.bind(authLogicController),
 );
 router.post(
   '/forgot-password',
   validate(forgotPasswordSchema),
-  AuthController.forgotPassword,
+  authLogicController.forgotPassword.bind(authLogicController),
 );
 router.patch(
   '/reset-password',
   validate(resetPasswordSchema),
-  AuthController.resetPassword,
+  authLogicController.resetPassword.bind(authLogicController),
 );
-router.post('/refresh', validate(refreshSchema), AuthController.refreshToken);
-router.post('/logout', validate(logoutSchema), AuthController.logout);
 
 export default router;
