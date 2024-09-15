@@ -30,6 +30,7 @@ app.use(helmet.noSniff()); // Prevent MIME type sniffing
 app.use(helmet.ieNoOpen()); // Prevent IE from executing downloads
 app.use(morgan(morganEnv));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.disable('x-powered-by'); // Disable X-Powered-By header
 
 app.use(express.static(path.join(__dirname, config.publicPathFromExpress)));
