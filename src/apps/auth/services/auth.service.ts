@@ -40,20 +40,19 @@ class AuthService {
         firstname: createUserResponse.document.firstname,
       });
 
-      const otpResponse = (await OTPService.generate(
-        email,
-        config.otp.purposes.ACCOUNT_VERIFICATION.code,
-      )) as SuccessResponseType<IOTPModel>;
+      // const otpResponse = (await OTPService.generate(
+      //   email,
+      //   config.otp.purposes.ACCOUNT_VERIFICATION.code,
+      // )) as SuccessResponseType<IOTPModel>;
 
-      if (!otpResponse.success || !otpResponse.document) {
-        throw otpResponse.error;
-      }
+      // if (!otpResponse.success || !otpResponse.document) {
+      //   throw otpResponse.error;
+      // }
 
       return {
         success: true,
         document: {
           user: createUserResponse.document,
-          otp: otpResponse.document,
         },
       };
     } catch (error) {
@@ -84,7 +83,7 @@ class AuthService {
       }
 
       if (userResponse.document.verified) {
-        return { success: true }; // If already verified, return success without further actions
+        return { success: true };
       }
 
       const validateOtpResponse = await OTPService.validate(
@@ -132,9 +131,10 @@ class AuthService {
 
       const user = userResponse.document;
 
-      if (!user.verified) {
-        throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
-      }
+      // This should not be done because verify comes now after login
+      // if (!user.verified) {
+      //   throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
+      // }
 
       if (!user.active) {
         throw new ErrorResponse(
@@ -193,9 +193,10 @@ class AuthService {
         throw new ErrorResponse('UNAUTHORIZED', 'Invalid credentials.');
       }
 
-      if (!user.verified) {
-        throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
-      }
+      // This should not be done because verify comes now after login
+      // if (!user.verified) {
+      //   throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
+      // }
 
       if (!user.active) {
         throw new ErrorResponse(
@@ -253,9 +254,10 @@ class AuthService {
         throw validateOtpResponse.error;
       }
 
-      if (!user.verified) {
-        throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
-      }
+      // This should not be done because verify comes now after login
+      // if (!user.verified) {
+      //   throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
+      // }
 
       if (!user.active) {
         throw new ErrorResponse(
@@ -382,9 +384,10 @@ class AuthService {
 
       const user = userResponse.document;
 
-      if (!user.verified) {
-        throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
-      }
+      // This should not be done because verify comes now after login
+      // if (!user.verified) {
+      //   throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
+      // }
 
       if (!user.active) {
         throw new ErrorResponse(
@@ -434,9 +437,10 @@ class AuthService {
 
       const user = userResponse.document;
 
-      if (!user.verified) {
-        throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
-      }
+      // This should not be done because verify comes now after login
+      // if (!user.verified) {
+      //   throw new ErrorResponse('UNAUTHORIZED', 'Unverified account.');
+      // }
 
       if (!user.active) {
         throw new ErrorResponse(
