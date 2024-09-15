@@ -10,6 +10,6 @@ router.use((req, res, next) => {
 });
 
 router.use('/', AuthViewsRoutes);
-router.use('/', AuthLogicRoutes); // e for execute (This is for executing the logic of the route)
+router.use('/', AuthLogicRoutes);
 
 export default router;

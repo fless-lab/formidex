@@ -9,6 +9,10 @@ export class SessionService {
     req.session.user = user;
   }
 
+  static getUserFromSession(req: Request): void {
+    return req.session.user;
+  }
+
   static getUserIdFromSession(req: Request): string | null {
     return req.session.user?.id || null;
   }

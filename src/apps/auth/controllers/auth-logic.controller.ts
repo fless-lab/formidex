@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+// @ts-nocheck
 import { Request, Response, NextFunction } from 'express';
-import { AuthService } from '../services';
+import { AuthService, OTPService } from '../services';
 import {
   ApiResponse,
   ErrorResponseType,
@@ -29,8 +30,8 @@ export class AuthLogicController {
           this.viewService.redirectWithFlash(
             req,
             res,
-            '/auth/verify',
-            'Account created! Please verify your account.',
+            '/auth/login',
+            'Account created! Please log in to verify your account.',
             'success',
           );
         } else {
@@ -54,10 +55,12 @@ export class AuthLogicController {
       const response = await AuthService.verifyAccount(req.body);
       if (response.success) {
         if (req.accepts('html')) {
+          // @ts-ignore
+          const fromUrl = req.session.returnTo || '/';
           this.viewService.redirectWithFlash(
             req,
             res,
-            '/auth/login',
+            fromUrl,
             'Account verified successfully.',
             'success',
           );
@@ -79,9 +82,11 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
+      console.log('req.body', req.body);
       const response = (await AuthService.loginWithPassword(req.body)) as any;
+      console.log('response', response);
       const { success, document } = response;
-      if (response.success) {
+      if (success) {
         if (req.accepts('html')) {
           const { accessToken, refreshToken } = document.token;
           SessionService.storeUserInSession(req, document.user);
@@ -113,8 +118,13 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const response = await AuthService.generateLoginOtp(req.body.email);
+      const { email } = req.body;
+
+      const response = await AuthService.generateLoginOtp(email);
       if (response.success) {
+        // Stocker l'email dans la session pour utilisation lors de la validation de l'OTP
+        req.session.emailForLoginOtp = email;
+
         if (req.accepts('html')) {
           this.viewService.redirectWithFlash(
             req,
@@ -141,14 +151,36 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const response = (await AuthService.loginWithOtp(req.body)) as any;
+      // Récupérer l'email stocké dans la session
+      const email = req.session.emailForLoginOtp;
+
+      if (!email) {
+        // Rediriger vers la page "generate otp" avec un message flash
+        this.viewService.redirectWithFlash(
+          req,
+          res,
+          '/auth/login/otp',
+          'Session expired or email not found. Please generate a new OTP.',
+          'error',
+        );
+        return;
+      }
+
+      const otpData = { ...req.body, email };
+
+      const response = (await AuthService.loginWithOtp(otpData)) as any;
       const { success, document } = response;
+
       if (success) {
         if (req.accepts('html')) {
           const { accessToken, refreshToken } = document.token;
+          // Supprimer l'email de la session après une connexion réussie
+          delete req.session.emailForLoginOtp;
+          // Stocker les informations de l'utilisateur dans la session
           SessionService.storeUserInSession(req, document.user);
           SessionService.storeTokensInSession(req, accessToken, refreshToken);
-          // @ts-ignore
+
+          // Rediriger vers la page précédente ou vers l'accueil
           const fromUrl = req.session.returnTo || '/';
           this.viewService.redirectWithFlash(
             req,
@@ -214,14 +246,19 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const response = await AuthService.forgotPassword(req.body.email);
+      const { email } = req.body;
+
+      const response = await AuthService.forgotPassword(email);
       if (response.success) {
+        // Stocker l'email dans la session pour réinitialiser le mot de passe plus tard
+        req.session.emailForResetPassword = email;
+
         if (req.accepts('html')) {
           this.viewService.redirectWithFlash(
             req,
             res,
             '/auth/reset-password',
-            'Password reset email sent.',
+            'Password reset email sent. Please check your email to continue.',
             'success',
           );
         } else {
@@ -242,18 +279,134 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const response = await AuthService.resetPassword(req.body);
+      // Récupérer l'email stocké dans la session
+      const email = req.session.emailForResetPassword;
+
+      if (!email) {
+        // Rediriger vers la page "forgot password" avec un message flash
+        this.viewService.redirectWithFlash(
+          req,
+          res,
+          '/auth/forgot-password',
+          'Session expired or email not found. Please enter your email again.',
+          'error',
+        );
+        return;
+      }
+
+      const resetData = { ...req.body, email };
+
+      const response = await AuthService.resetPassword(resetData);
       if (response.success) {
+        // Supprimer l'email de la session après une réinitialisation réussie
+        delete req.session.emailForResetPassword;
+
         if (req.accepts('html')) {
           this.viewService.redirectWithFlash(
             req,
             res,
             '/auth/login',
-            'Password reset successfully.',
+            'Password reset successfully. You can now log in.',
             'success',
           );
         } else {
           ApiResponse.success(res, response);
+        }
+      } else {
+        throw response;
+      }
+    } catch (error) {
+      this.handleError(req, res, 'auth/pages/reset-password', error, next);
+    }
+  }
+
+  // RESEND OTP FOR ACCOUNT VERIFICATION
+  async resendVerificationOTP(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { email } = req.body;
+      const purpose = config.otp.purposes.ACCOUNT_VERIFICATION.code;
+
+      const response = await OTPService.generate(email, purpose);
+
+      if (response.success) {
+        if (req.accepts('html')) {
+          this.viewService.redirectWithFlash(
+            req,
+            res,
+            '/auth/confirm-otp',
+            'A new verification code has been sent to your email.',
+            'success',
+          );
+        } else {
+          ApiResponse.success(res, response, 201);
+        }
+      } else {
+        throw response;
+      }
+    } catch (error) {
+      this.handleError(req, res, 'auth/pages/verify', error, next);
+    }
+  }
+
+  // RESEND LOGIN OTP
+  async resendLoginOTP(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { email } = req.body;
+      const purpose = config.otp.purposes.LOGIN_CONFIRMATION.code;
+
+      const response = await OTPService.generate(email, purpose);
+
+      if (response.success) {
+        if (req.accepts('html')) {
+          this.viewService.redirectWithFlash(
+            req,
+            res,
+            '/auth/confirm-otp',
+            'A new login OTP has been sent to your email.',
+            'success',
+          );
+        } else {
+          ApiResponse.success(res, response, 201);
+        }
+      } else {
+        throw response;
+      }
+    } catch (error) {
+      this.handleError(req, res, 'auth/pages/login', error, next);
+    }
+  }
+
+  // RESEND RESET PASSWORD OTP
+  async resendResetPasswordOTP(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { email } = req.body;
+      const purpose = config.otp.purposes.FORGOT_PASSWORD.code;
+
+      const response = await OTPService.generate(email, purpose);
+
+      if (response.success) {
+        if (req.accepts('html')) {
+          this.viewService.redirectWithFlash(
+            req,
+            res,
+            '/auth/reset-password',
+            'A new password reset OTP has been sent to your email.',
+            'success',
+          );
+        } else {
+          ApiResponse.success(res, response, 201);
         }
       } else {
         throw response;
@@ -272,6 +425,8 @@ export class AuthLogicController {
     next: NextFunction,
   ) {
     if (req.accepts('html')) {
+      const { message } = error.error;
+      req.flash('error', message || 'An error occurred');
       this.viewService.renderPage(req, res, view, {
         errorMessages: [error.message || 'An error occurred'],
       });
