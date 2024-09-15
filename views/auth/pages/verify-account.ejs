@@ -1,4 +1,10 @@
 <div class="w-full max-w-md space-y-8">
+  <% if (user?.verified) { %>
+    <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">Your Account is Already Verified</h2>
+    <p class="mt-2 text-center text-sm text-muted-foreground">
+      Your account has already been verified. You can now access all features.
+    </p>
+  <% } else { %>
     <div>
       <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">Verify Your Account</h2>
       <p class="mt-2 text-center text-sm text-muted-foreground">
@@ -21,6 +27,8 @@
           placeholder="Email"
           name="email"
           type="email"
+          disabled
+          value="this.user@email.com"
         />
       </div>
       <div>
@@ -54,4 +62,5 @@
             Register Now
           </a>
     </div>
+ <% } %>
   </div>
