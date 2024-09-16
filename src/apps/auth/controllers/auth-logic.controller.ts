@@ -425,11 +425,8 @@ export class AuthLogicController {
     next: NextFunction,
   ) {
     if (req.accepts('html')) {
-      const { message } = error.error;
-      req.flash('error', message || 'An error occurred');
-      this.viewService.renderPage(req, res, view, {
-        errorMessages: [error.message || 'An error occurred'],
-      });
+      const realError = error.error;
+      this.viewService.handleError(req, res, realError, 'auth/pages/login');
     } else {
       ApiResponse.error(res, error as ErrorResponseType);
     }

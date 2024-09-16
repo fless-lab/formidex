@@ -1,21 +1,44 @@
 // @ts-nocheck
 import { Request, Response } from 'express';
+import { ErrorResponse } from '../utils';
 
 class ViewService {
-  // private setup(app: Application) {
-  // Setup logic if necessary
-  // }
-
-  renderPage(req: Request, res: Response, view: string, options: any = {}) {
+  private render(
+    req: Request,
+    res: Response,
+    view: string,
+    options: any = {},
+    statusCode = 200,
+  ) {
     const user = req.session.user || null;
 
-    res.render(view, {
+    const successMessages = req.flash('success');
+    const errorMessages = req.flash('error');
+
+    if (options.error instanceof ErrorResponse) {
+      const error = options.error;
+      statusCode = error.statusCode;
+      options.suggestions = error.suggestions;
+
+      options.errorMessages = errorMessages.concat(error.message);
+    }
+
+    const baseTitle = 'Formidex';
+    const pageTitle = options.title
+      ? `${options.title} - ${baseTitle}`
+      : baseTitle;
+
+    res.status(statusCode).render(view, {
       ...options,
-      title: options.title || 'Formidex',
+      title: pageTitle,
       user,
-      successMessages: req.flash('success'),
-      errorMessages: req.flash('error'),
+      successMessages,
+      errorMessages: options.errorMessages || errorMessages,
     });
+  }
+
+  renderPage(req: Request, res: Response, view: string, options: any = {}) {
+    this.render(req, res, view, options);
   }
 
   renderErrorPage(
@@ -26,17 +49,17 @@ class ViewService {
     title = 'Error',
     additionalMessage = '',
   ) {
-    const user = req.session.user || null;
-
-    const view = `errors/${statusCode}`;
-    res.status(statusCode).render(view, {
-      title,
-      message,
-      additionalMessage,
-      user,
-      successMessages: req.flash('success'),
-      errorMessages: req.flash('error'),
-    });
+    this.render(
+      req,
+      res,
+      `errors/${statusCode}`,
+      {
+        title,
+        message,
+        additionalMessage,
+      },
+      statusCode,
+    );
   }
 
   redirectWithFlash(
@@ -48,6 +71,10 @@ class ViewService {
   ) {
     req.flash(type, message);
     res.redirect(route);
+  }
+
+  handleError(req: Request, res: Response, error: ErrorResponse, view: string) {
+    this.render(req, res, view, { error });
   }
 }
 
