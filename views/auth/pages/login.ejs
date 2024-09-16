@@ -3,7 +3,7 @@
       <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-foreground">Login to Formidex</h2>
       <p class="mt-2 text-center text-sm text-muted-foreground">Manage your forms with ease</p>
     </div>
-    <form class="space-y-6" action="#" method="POST">
+    <form class="space-y-6" action="/auth/login" method="POST">
       <div>
         <label
           class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 sr-only"
@@ -19,6 +19,7 @@
           placeholder="Email address"
           type="email"
           name="email"
+          value="<%= oldInput.email || '' %>"
         />
       </div>
       <div>

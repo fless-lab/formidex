@@ -9,7 +9,9 @@ import {
   apiRateLimiter,
   clientAuthentication,
   GlobalErrorHandler,
+  injectOldInputMiddleware,
   NotFoundHandler,
+  oldInputMiddleware,
 } from '../../../common/shared';
 import { default as AllRoutes } from '../../../common/global-router';
 import { config } from '../../config';
@@ -33,6 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.disable('x-powered-by'); // Disable X-Powered-By header
 
+// Specifying public path for static files
 app.use(express.static(path.join(__dirname, config.publicPathFromExpress)));
 
 // Use express-ejs-layouts
@@ -47,7 +50,13 @@ initializeViewEngine(app);
 // Client authentication middleware
 // app.use(clientAuthentication);
 
-// Client authentication middleware
+// Register oldInputMiddleware globally; it will handle methods internally
+app.use(oldInputMiddleware);
+
+// Register injectOldInputMiddleware for all requests
+app.use(injectOldInputMiddleware);
+
+// Rate limiter middleware
 app.use(apiRateLimiter);
 
 // API Routes
