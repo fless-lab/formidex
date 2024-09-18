@@ -14,7 +14,6 @@ class ViewService {
 
     const successMessages = req.flash('success');
     const errorMessages = req.flash('error');
-
     if (options.error instanceof ErrorResponse) {
       const error = options.error;
       statusCode = error.statusCode;
@@ -71,6 +70,35 @@ class ViewService {
   ) {
     req.flash(type, message);
     res.redirect(route);
+  }
+
+  redirectBack(
+    req: Request,
+    res: Response,
+    messages: {
+      successMessages?: string | string[];
+      errorMessages?: string | string[];
+    } = {},
+  ) {
+    const backUrl = req.originalUrl || '/';
+
+    if (messages.successMessages) {
+      if (Array.isArray(messages.successMessages)) {
+        messages.successMessages.forEach((msg) => req.flash('success', msg));
+      } else {
+        req.flash('success', messages.successMessages);
+      }
+    }
+
+    if (messages.errorMessages) {
+      if (Array.isArray(messages.errorMessages)) {
+        messages.errorMessages.forEach((msg) => req.flash('error', msg));
+      } else {
+        req.flash('error', messages.errorMessages);
+      }
+    }
+
+    res.redirect(backUrl);
   }
 
   handleError(req: Request, res: Response, error: ErrorResponse, view: string) {
