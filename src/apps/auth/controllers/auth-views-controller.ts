@@ -10,13 +10,13 @@ export class AuthViewsController {
 
   showLoginPage(req: Request, res: Response) {
     this.viewService.renderPage(req, res, 'auth/pages/login', {
-      title: 'Login - Formidex',
+      title: 'Login',
     });
   }
 
   showRegisterPage(req: Request, res: Response) {
     this.viewService.renderPage(req, res, 'auth/pages/register', {
-      title: 'Register - Formidex',
+      title: 'Register',
     });
   }
 
@@ -28,7 +28,7 @@ export class AuthViewsController {
 
   showGenerateOtpPage(req: Request, res: Response) {
     this.viewService.renderPage(req, res, 'auth/pages/generate-otp', {
-      title: 'Login with OTP - Formidex',
+      title: 'Login with OTP',
     });
   }
 
@@ -36,19 +36,19 @@ export class AuthViewsController {
     const { email } = req.query;
     this.viewService.renderPage(req, res, 'auth/pages/confirm-otp', {
       email,
-      title: 'Confirm OTP - Formidex',
+      title: 'Confirm OTP',
     });
   }
 
   showForgotPasswordPage(req: Request, res: Response) {
     this.viewService.renderPage(req, res, 'auth/pages/forgot-password', {
-      title: 'Forgot Password - Formidex',
+      title: 'Forgot Password',
     });
   }
 
   showResetPasswordPage(req: Request, res: Response) {
     this.viewService.renderPage(req, res, 'auth/pages/reset-password', {
-      title: 'Reset Password - Formidex',
+      title: 'Reset Password',
     });
   }
 }
