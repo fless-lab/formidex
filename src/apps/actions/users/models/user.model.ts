@@ -1,8 +1,9 @@
-import { CallbackError } from 'mongoose';
+import { CallbackError, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IUserModel } from '../types';
-import { BaseModel, createBaseSchema } from '../../../core/engine';
-import { config } from '../../../core/config';
+import { BaseModel, createBaseSchema } from '../../../../core/engine';
+import { config } from '../../../../core/config';
+import { USER_ROLES } from '../../../../core/constants';
 
 const USER_MODEL_NAME = 'User';
 
@@ -12,10 +13,19 @@ const UserSchema = createBaseSchema<IUserModel>(
     lastname: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    role: { type: String, enum: ['admin', 'user', 'guest'], default: 'user' },
-    profilePhoto: { type: String },
+    role: {
+      type: String,
+      enum: Object.values(USER_ROLES),
+      default: USER_ROLES.USER,
+    },
+    entity: {
+      type: Schema.Types.ObjectId,
+      ref: 'Entity',
+      required: true,
+    },
     active: { type: Boolean, default: true },
     verified: { type: Boolean, default: false },
+    approved: { type: Boolean, default: false },
   },
   {
     modelName: USER_MODEL_NAME,

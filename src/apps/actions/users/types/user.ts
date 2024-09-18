@@ -1,7 +1,7 @@
 // src/apps/users/types/user.ts
 
 import { Document } from 'mongoose';
-import { IBaseModel } from '../../../core/engine'; // Importer IBaseModel pour l'extension
+import { IBaseModel } from '../../../../core/engine'; // Importer IBaseModel pour l'extension
 
 export type TUserRole = 'admin' | 'user' | 'guest';
 
