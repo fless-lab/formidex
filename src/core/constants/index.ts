@@ -24,3 +24,12 @@ export const helmetCSPConfig = helmet.contentSecurityPolicy({
     ],
   },
 });
+
+export const USER_ROLES = {
+  SUPERADMIN: 'superadmin',
+  ADMIN: 'admin',
+  DESIGNER: 'designer',
+  USER: 'user',
+} as const;
+
+export type UserRole = (typeof USER_ROLES)[keyof typeof USER_ROLES];
