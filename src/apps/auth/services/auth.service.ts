@@ -7,7 +7,8 @@ import {
   SuccessResponseType,
 } from '../../../common/shared';
 import { config } from '../../../core/config';
-import { IUserModel, UserService } from '../../users';
+import { EntityService, IEntityModel } from '../../actions';
+import { IUserModel, UserService } from '../../actions/users';
 import { IOTPModel } from '../types';
 
 class AuthService {
@@ -15,11 +16,20 @@ class AuthService {
     payload: any,
   ): Promise<SuccessResponseType<any> | ErrorResponseType> {
     try {
-      const { email } = payload;
+      const {
+        entityChoice,
+        existingEntity,
+        newEntity,
+        firstname,
+        lastname,
+        email,
+        password,
+      } = payload;
+
+      // Vérification si l'utilisateur existe déjà
       const userResponse = (await UserService.findOne({
         email,
       })) as SuccessResponseType<IUserModel>;
-
       if (userResponse.success && userResponse.document) {
         throw new ErrorResponse(
           'UNIQUE_FIELD_ERROR',
@@ -27,27 +37,68 @@ class AuthService {
         );
       }
 
-      const createUserResponse = (await UserService.create(
-        payload,
-      )) as SuccessResponseType<IUserModel>;
+      let entityId;
+
+      if (entityChoice === 'join') {
+        const entityResponse = (await EntityService.findOne({
+          slug: existingEntity,
+        })) as SuccessResponseType<IEntityModel>;
+        if (!entityResponse.success || !entityResponse.document) {
+          throw new ErrorResponse(
+            'NOT_FOUND_ERROR',
+            'Selected organization not found.',
+          );
+        }
+
+        if (!entityResponse.document.active) {
+          throw new ErrorResponse(
+            'INACTIVE_ENTITY_ERROR',
+            "The selected organization is inactive. If you are it's owner, please contact the administrator.",
+          );
+        }
+
+        entityId = entityResponse.document._id;
+      } else if (entityChoice === 'create') {
+        const entityCreationResponse = (await EntityService.create({
+          name: newEntity,
+        })) as SuccessResponseType<IEntityModel>;
+        if (
+          !entityCreationResponse.success ||
+          !entityCreationResponse.document
+        ) {
+          throw new ErrorResponse(
+            'ENTITY_CREATION_ERROR',
+            'Failed to create a new organization.',
+          );
+        }
+
+        entityId = entityCreationResponse.document._id;
+      } else {
+        throw new ErrorResponse(
+          'INVALID_ENTITY_CHOICE',
+          'Invalid entity choice.',
+        );
+      }
+
+      const createUserResponse = (await UserService.create({
+        firstname,
+        lastname,
+        email,
+        password,
+        entity: entityId,
+      })) as SuccessResponseType<IUserModel>;
 
       if (!createUserResponse.success || !createUserResponse.document) {
-        throw createUserResponse.error;
+        throw new ErrorResponse(
+          'USER_CREATION_ERROR',
+          'Failed to create user.',
+        );
       }
 
       await MailServiceUtilities.sendAccountCreationEmail({
         to: email,
         firstname: createUserResponse.document.firstname,
       });
-
-      // const otpResponse = (await OTPService.generate(
-      //   email,
-      //   config.otp.purposes.ACCOUNT_VERIFICATION.code,
-      // )) as SuccessResponseType<IOTPModel>;
-
-      // if (!otpResponse.success || !otpResponse.document) {
-      //   throw otpResponse.error;
-      // }
 
       return {
         success: true,

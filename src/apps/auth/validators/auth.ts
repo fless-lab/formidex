@@ -5,7 +5,15 @@ export const registerSchema = Joi.object({
   lastname: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(8).required(),
-  profilePhoto: Joi.string().optional(),
+  entityChoice: Joi.string().valid('create', 'join').required(),
+  existingEntity: Joi.when('entityChoice', {
+    is: 'join',
+    then: Joi.string().required().label('Existing organization'),
+  }),
+  newEntity: Joi.when('entityChoice', {
+    is: 'create',
+    then: Joi.string().required().label('New organization'),
+  }),
 }).unknown(false);
 
 export const verifyAccountSchema = Joi.object({

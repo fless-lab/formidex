@@ -9,6 +9,7 @@ import {
   ViewService,
 } from '../../../common/shared';
 import { config } from '../../../core/config';
+import { EntityService } from '../../actions';
 
 export class AuthLogicController {
   private viewService: ViewService;
@@ -16,8 +17,6 @@ export class AuthLogicController {
   constructor() {
     this.viewService = new ViewService();
   }
-
-  // REGISTER
   async register(
     req: Request,
     res: Response,
@@ -82,9 +81,7 @@ export class AuthLogicController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      console.log('req.body', req.body);
       const response = (await AuthService.loginWithPassword(req.body)) as any;
-      console.log('response', response);
       const { success, document } = response;
       if (success) {
         if (req.accepts('html')) {
