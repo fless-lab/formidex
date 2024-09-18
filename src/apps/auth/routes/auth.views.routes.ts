@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { AuthViewsController } from '../controllers';
+import { authenticateRequest } from '../../../common/shared';
 
 const router = Router();
 const authViewsController = new AuthViewsController();
@@ -14,6 +15,7 @@ router.get(
 );
 router.get(
   '/verify',
+  authenticateRequest,
   authViewsController.showVerifyPage.bind(authViewsController),
 );
 

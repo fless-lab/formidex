@@ -10,7 +10,11 @@ import {
   resetPasswordSchema,
   verifyAccountSchema,
 } from '../validators';
-import { validate, bruteForceMiddleware } from '../../../common/shared';
+import {
+  validate,
+  bruteForceMiddleware,
+  authenticateRequest,
+} from '../../../common/shared';
 import { AuthLogicController } from '../controllers';
 
 const router = Router();
@@ -18,18 +22,19 @@ const authLogicController = new AuthLogicController();
 
 router.post(
   '/login',
-  validate(loginWithPasswordSchema),
+  validate(loginWithPasswordSchema, 'auth/pages/login'),
   bruteForceMiddleware,
   authLogicController.loginWithPassword.bind(authLogicController),
 );
 router.post(
   '/register',
-  validate(registerSchema),
+  validate(registerSchema, 'auth/pages/register'),
   authLogicController.register.bind(authLogicController),
 );
 router.post(
   '/verify',
-  validate(verifyAccountSchema),
+  validate(verifyAccountSchema, 'auth/pages/verify-account'),
+  authenticateRequest,
   authLogicController.verifyAccount.bind(authLogicController),
 );
 router.post(
