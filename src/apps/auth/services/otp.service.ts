@@ -5,7 +5,7 @@ import {
   MailServiceUtilities,
   SuccessResponseType,
 } from '../../../common/shared';
-import { IUserModel, UserService } from '../../users';
+import { IUserModel, UserService } from '../../actions/users';
 import { OTPModel } from '../models';
 import { IOTPModel, TOTPPurpose } from '../types';
 import { config } from '../../../core/config';
